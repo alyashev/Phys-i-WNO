@@ -1,7 +1,7 @@
-This code is for 1-D burger equation.
+#This code is for 1-D burger equation.
 
-from IPython import get_ipython
-get_ipython().magic('reset -sf')
+#from IPython import get_ipython
+#get_ipython().magic('reset -sf')
 
 # %%
 import numpy as np
@@ -22,7 +22,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # %%
 """ Model configurations """
 
-reader = scipy.io.loadmat('data/u_sol2_burger.mat')  	# Load data from file
+reader = scipy.io.loadmat('Data/u_sol2_burger.mat')  	# Load data from file
 x = torch.tensor(reader['x'],dtype = torch.float)                                   # 200 points between -1 and 1 [256x1]
 y = torch.tensor(reader['t'],dtype = torch.float)                                   # 200 time points between 0 and 1 [100x1] 
 usol = torch.tensor(reader['sol'],dtype = torch.float) 
@@ -83,7 +83,7 @@ Xt1, Yt1 = np.meshgrid(xt1,yt1)
 X_f_train = np.hstack([Xt1.reshape(N_f*N_f,1),Yt1.reshape(N_f*N_f,1)])
 x_f_train = torch.tensor(X_f_train,dtype=torch.float).to(device)
 
-gf = gradfree_fun.gradientfree().cuda()
+gf = gradfree_fun.gradientfree().cuda() if torch.cuda.is_available() else gradfree_fun.gradientfree().cpu()
 p_index = gf.neighbour_index(x_f_train)
 invp_index = gf.inverse_index(x_f_train)
 
@@ -98,7 +98,7 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=step_size, gamm
 
 train_loss = torch.zeros(epochs)
 test_loss = torch.zeros(epochs)
-y_normalizer.cuda()
+y_normalizer.cuda() if torch.cuda.is_available() else y_normalizer.cpu()
 for ep in range(epochs):
     model.train()
     t1 = default_timer()

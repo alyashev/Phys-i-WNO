@@ -15,8 +15,8 @@ torch.set_default_dtype(torch.float)
 torch.manual_seed(1234)
 np.random.seed(1234)
 
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = torch.device('cuda:1')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#device = torch.device('cuda:1')
 # device= torch.device('cpu')
 
 class gradientfree(nn.Module):

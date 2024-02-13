@@ -8,9 +8,6 @@ This code belongs to the paper:
 This code is for 2-D Darcy equation (time-independent problem).
 """
 
-from IPython import get_ipython
-get_ipython().magic('reset -sf')
-
 
 # %%
 import numpy as np
@@ -30,7 +27,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # %%
 """ Model configurations """
-TRAIN_PATH = 'Nagumo_129_129_1000.mat'
+TRAIN_PATH = 'Data/Nagumo_129_129_1000.mat'
 reader = scipy.io.loadmat(TRAIN_PATH)
 x = torch.tensor(reader['x'],dtype = torch.float)                                   # 200 points between -1 and 1 [256x1]
 y = torch.tensor(reader['t'],dtype = torch.float)                                   # 200 time points between 0 and 1 [100x1] 
@@ -104,7 +101,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
 train_loss = torch.zeros(epochs)
 test_loss = torch.zeros(epochs)
-y_normalizer.cuda()
+
 for ep in range(epochs):
     model.train()
     t1 = default_timer()

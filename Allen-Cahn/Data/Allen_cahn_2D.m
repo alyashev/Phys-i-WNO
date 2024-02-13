@@ -2,10 +2,10 @@ clear
 close all
 clc
 
-T= 5; N=104; a=[3 3]; k= 6; J=[2^k 2^k]; epsilon=1;
-x=(0:a(1)/J(1):a(1))'; y=(0:a(2)/J(2):a(2))';
-% % [xx yy]=meshgrid(y,x); 
-% % u0=sin(xx).*cos(pi*yy/8);
+T= 10; N=64; a=[3 3]; k= 6; J=[2^k 2^k]; epsilon=1;
+x=(0:a(1)/J(1):a(1)); y=(0:a(2)/J(2):a(2));
+[xx yy]=meshgrid(y,x); 
+u0=sin(xx).*cos(pi*yy/8);
 
 % Navaneeth data
 % T= 1; N=50; a=[1 1]; k= 6; J=[2^k 2^k]; epsilon= 0.01;
@@ -17,7 +17,7 @@ x=(0:a(1)/J(1):a(1))'; y=(0:a(2)/J(2):a(2))';
 % [xx, yy]=meshgrid(y,x); 
 % u00=sin(xx).*cos(4*pi*yy);
 
-sample = 1;
+sample = 10;
 initial = zeros(numel(x), numel(y), sample);
 sol = zeros(numel(x), numel(y), N+1, sample);
 for i =1:sample
@@ -29,19 +29,19 @@ for i =1:sample
     sol(:,:,:,i) = ut;
 end
 
-% save('Allen_Cahn_pde_65_65_800.mat', 't', 'x', 'sol', 'initial')
+save('Allen_Cahn_pde_65_65_800.mat', 't', 'x', 'sol', 'initial')
 
 %
-figure(1); imagesc(u0); colormap(jet)
+% figure(1); imagesc(u0); colormap(jet)
 
-figure(1)
-index = 1;
-for i = 1:size(t,1)
-    if mod(i,2)==0
-        subplot(5,5,index); imagesc(sol(:,:,i)); colorbar();
-        index = index+1;
-    end
-end
+% figure(1)
+% index = 1;
+% for i = 1:size(t,1)
+%     if mod(i,2)==0
+%        subplot(5,5,index); imagesc(sol(:,:,i)); colorbar();
+%        index = index+1;
+%    end
+% end
 
 % figure(2)
 % for i = 1: size(t,1)
@@ -63,6 +63,6 @@ function [t,ut]=pde_twod_Gal(u0,T,a,N,J,epsilon,fhandle)
         uh_new=EE.*(uh+Dt*fhu);
         u=real(ifft2(uh_new)); ut(1:J(1), 1:J(2), n+1)=u; uh=uh_new;
     end
-ut(J(1)+1,:,:)=ut(1,:,:); ut(:,J(2)+1,:)=ut(:,1,:); % make periodic
+    ut(J(1)+1,:,:)=ut(1,:,:); ut(:,J(2)+1,:)=ut(:,1,:); % make periodic
 end
 

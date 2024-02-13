@@ -1,5 +1,5 @@
-from IPython import get_ipython
-get_ipython().magic('reset -sf')
+#from IPython import get_ipython
+#get_ipython().magic('reset -sf')
 
 
 # %%
@@ -14,18 +14,18 @@ import gradfree_fun
 torch.manual_seed(0)
 np.random.seed(0)
 
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = torch.device('cuda:1')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#device = torch.device('cuda:1')
 # device= torch.device('cpu')
 
 # %%
 """ Model configurations """
 
-TRAIN_PATH = 'Allen_Cahn_pde_65_65_1000.mat'
+TRAIN_PATH = './Data/Allen_Cahn_pde_65_65_800.mat'
 # TEST_PATH = '/DATA/Phy_wno Allencan/Allen_Cahn_pde_129_129_1000.mat'
 
-ntrain = 600
-ntest = 20
+ntrain = 10 #600
+ntest = 2 # 20
 
 batch_size = 10
 learning_rate = 0.0001
